@@ -35,20 +35,20 @@ git checkout -b <로컬브랜치> origin/<원격브랜치>
 git checkout <작업브랜치>
 git pull origin <작업브랜치>
 또는
-git pull --rebase origin <작업브랜치>   # merge commit 없이 깨끗한 히스토리 유지
+git pull --rebase origin <작업브랜치>   # merge commit 없이 깔끔한 히스토리 유지
 
 # ---- 실제 코드 작업 ----
-git add <파일명> <파일명2> . . .
-git add .                              # 전체 파일 add
+git add <파일명> <파일명2>
+git add .                               # 전체 파일 add
 git commit -m "메시지"
-git push origin <작업브랜치>          # 로컬 작업 내용을 원격 저장소에 반영
+git push origin <작업브랜치>
 
 
 6. 원격 저장소 내용 가져오기
 git pull origin <브랜치>
 git pull --rebase origin <브랜치>
-git fetch --all                        # 원격 저장소의 최신 정보를 모두 가져옴
-git fetch --prune                      # 원격에서 삭제된 브랜치 정보를 로컬에서 정리
+git fetch --all                         # 원격 저장소 최신 정보 가져오기(병합 없음)
+git fetch --prune                       # 원격 삭제분을 로컬에서 정리
 
 
 7. 커밋 로그 / 브랜치 상태 확인
@@ -58,8 +58,8 @@ git log --oneline --graph --decorate origin/<브랜치>
 
 
 8. 충돌 해결(Merge Conflict) + git merge
-# → 병합할 대상 브랜치로 먼저 이동해야 한다.
-# 예) main에 eryang을 병합하고 싶으면:
+# → 병합할 대상 브랜치로 먼저 이동해야 함
+# 예) main에 eryang 병합:
 #     git checkout main
 #     git merge eryang
 
@@ -82,30 +82,35 @@ git push origin <브랜치>
 
 9. 강제 push(주의)
 git push -f origin <브랜치>
-# reset 이후 원격 히스토리를 덮어써야 하는 경우 사용
+# 로컬 히스토리를 원격에 강제로 덮어쓰는 경우 사용
 
 
-10. reset 3종류
+10. reset 3종류  (+ HEAD 개념 반영)
 
-(1) soft reset — 커밋만 취소(파일 유지)
-git reset --soft <commit id>
-git push origin <브랜치>
+# HEAD = 현재 checkout 되어 있는 “현재 커밋”
+# HEAD~1 = 바로 이전 커밋
+# HEAD~2 = 두 단계 이전 커밋
+# <commitID> = 특정 커밋 해시(e1f93ad 등)
 
-(2) mixed reset — 커밋 + add 취소(파일 유지)
-git reset --mixed <commit id>
-git reset <commit>
-git push origin <브랜치>
+(1) soft reset — 커밋만 취소 (파일 상태 그대로 유지)
+git reset --soft <commitID>
 
-(3) hard reset — 커밋 + 파일 상태 전체를 과거로 복구
-git reset --hard <commit id>
-git push -f origin <브랜치>
+(2) mixed reset — 커밋 + staging 취소 (파일 상태는 그대로 유지)
+git reset --mixed <commitID>
+git reset <commitID>
+
+(3) hard reset — 커밋 + 파일 상태 전체를 특정 커밋 시점으로 복구
+git reset --hard <commitID>
+git reset --hard HEAD~1                 # 한 커밋 전으로 완전 되돌리기
+git push -f origin <브랜치>             # 원격도 동일하게 맞출 때
 
 
 11. 안전하게 되돌리는 revert (히스토리 보존)
 git revert <commitID>
 
 
-12. 원격 브랜치가 force push로 변경되어 로컬과 맞지 않을 때 (non-fast-forward 해결)
+12. 원격 브랜치가 force push 등으로 변경되어 로컬과 맞지 않을 때
+# 로컬 브랜치를 원격 상태와 완전히 동일하게 맞추기
 git fetch --all
 git checkout <로컬 브랜치명>
 git reset --hard origin/<해당 브랜치명>
