@@ -1,0 +1,64 @@
+GitHub Branch Protection Rule 
+
+
+1. Repository → Settings → Branches 이동
+2. Add branch protection rule 클릭
+3. 보호할 브랜치명(main 등) 입력 후 아래 옵션 활성화
+
+
+1. Require pull request reviews before merging
+→ PR 병합 전에 반드시 리뷰가 필요함.
+→ 리뷰 없으면 merge 버튼이 비활성화됨.
+→ 승인 없이 혼자 merge 불가.
+
+- 코드 품질 관리
+- 타인 검토 절차 확보
+
+
+2. Require approvals: 1
+→ 최소 1명 이상의 Approve가 있어야 merge 가능.
+→ 승인 없으면 merge 불가.
+
+- 검증되지 않은 코드가 main에 들어가는 것을 차단
+- 협업 시 최소 승인 기준 확보
+
+
+3. Dismiss stale pull request approvals when new commits are pushed
+→ PR에 새 커밋이 push되면 기존 Approve 자동 무효화.
+→ 코드가 변경되면 다시 승인받아야 함.
+
+- 승인 이후 변경된 코드는 다시 검토 필요
+- 보안 및 품질 문제 방지
+
+
+4. Protect matching branches
+→ 보호 규칙을 적용할 브랜치를 지정(main 등).
+→ 해당 브랜치는 삭제·직접 수정 등이 제한됨.
+
+- 중요한 브랜치의 안정성 유지
+- 잘못된 작업으로 핵심 브랜치 손상 방지
+
+
+5. Restrict who can push to matching branches
+→ 해당 브랜치에 직접 push 가능한 사람을 제한.
+→ 일반적으로 ‘아무도 직접 push 불가’로 설정하여 PR만 허용.
+
+- 실수로 main에 직접 push하여 히스토리를 손상시키는 사고 방지
+- 모든 변경을 PR을 통해 통제 가능
+
+
+6. Require a pull request before merging
+→ PR 없이 main을 변경할 수 없음.
+→ 모든 변경은 브랜치 생성 → 작업 → PR → 리뷰 → 승인 → merge 절차를 따라야 함.
+
+- 협업 절차 표준화
+- 무질서한 변경, 실수 병합 방지
+
+
+일반적인 설정 예시 
+- Require pull request reviews before merging: ON
+- Require approvals: 1
+- Dismiss stale pull request approvals: ON
+- Protect matching branches: main
+- Restrict who can push: 아무도 push 불가
+- Require a pull request before merging: ON

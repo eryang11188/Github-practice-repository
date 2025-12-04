@@ -1,0 +1,111 @@
+1. 초기 설정(첫 1회)
+git config --global user.name "이름"
+git config --global user.email "이메일"
+
+
+2. 원격 저장소 복제
+git clone <URL>
+
+
+3. 작업 전 상태 확인
+git status
+
+
+4. 브랜치 관련 명령어
+git branch                                   # 로컬 브랜치 목록
+git branch -r                                # 원격 브랜치 목록
+git branch -a                                # 로컬+원격 전체 목록
+git checkout <브랜치명>                      # 브랜치 이동
+git checkout -b <브랜치명>                   # 새 브랜치 생성 + 이동
+git checkout -b <로컬명> origin/<원격명>     # 원격 브랜치를 로컬로 가져와 생성
+git branch -d <브랜치명>                     # 로컬 브랜치 삭제
+git push origin --delete <브랜치명>          # 원격 브랜치 삭제
+
+# 원격 브랜치 삭제 후 로컬 목록에서 반영하려면:
+git fetch --prune                             # 원격에서 삭제된 브랜치를 로컬에서도 제거
+
+
+5. 일반 작업 흐름(항상 이 구조)
+
+# (최초 1회 – clone 직후)
+git branch -r
+git checkout -b <로컬브랜치> origin/<원격브랜치>
+
+# (매일 작업할 때)
+git checkout <작업브랜치>
+git pull origin <작업브랜치>
+또는
+git pull --rebase origin <작업브랜치>   # merge commit 없이 깨끗한 히스토리 유지
+
+# ---- 실제 코드 작업 ----
+git add <파일명> <파일명2> . . .
+git add .                              # 전체 파일 add
+git commit -m "메시지"
+git push origin <작업브랜치>          # 로컬 작업 내용을 원격 저장소에 반영
+
+
+6. 원격 저장소 내용 가져오기
+git pull origin <브랜치>
+git pull --rebase origin <브랜치>
+git fetch --all                        # 원격 저장소의 최신 정보를 모두 가져옴
+git fetch --prune                      # 원격에서 삭제된 브랜치 정보를 로컬에서 정리
+
+
+7. 커밋 로그 / 브랜치 상태 확인
+git log
+git log --oneline --graph --decorate
+git log --oneline --graph --decorate origin/<브랜치>
+
+
+8. 충돌 해결(Merge Conflict) + git merge
+# → 병합할 대상 브랜치로 먼저 이동해야 한다.
+# 예) main에 eryang을 병합하고 싶으면:
+#     git checkout main
+#     git merge eryang
+
+# 충돌 파일 예시:
+# <<<<<<< HEAD
+#   (내 브랜치 코드)
+# =======
+#   (상대 브랜치 코드)
+# >>>>>>> 브랜치명(or 커밋ID)
+
+# 해결 절차:
+# 1) 충돌 표시 제거
+# 2) 원하는 최종 코드만 남김
+# 3) 저장 후 add/commit
+
+git add .
+git commit
+git push origin <브랜치>
+
+
+9. 강제 push(주의)
+git push -f origin <브랜치>
+# reset 이후 원격 히스토리를 덮어써야 하는 경우 사용
+
+
+10. reset 3종류
+
+(1) soft reset — 커밋만 취소(파일 유지)
+git reset --soft <commit id>
+git push origin <브랜치>
+
+(2) mixed reset — 커밋 + add 취소(파일 유지)
+git reset --mixed <commit id>
+git reset <commit>
+git push origin <브랜치>
+
+(3) hard reset — 커밋 + 파일 상태 전체를 과거로 복구
+git reset --hard <commit id>
+git push -f origin <브랜치>
+
+
+11. 안전하게 되돌리는 revert (히스토리 보존)
+git revert <commitID>
+
+
+12. 원격 브랜치가 force push로 변경되어 로컬과 맞지 않을 때 (non-fast-forward 해결)
+git fetch --all
+git checkout <로컬 브랜치명>
+git reset --hard origin/<해당 브랜치명>
