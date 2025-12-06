@@ -1,10 +1,10 @@
 # include <stdio.h>
 
 int main(void){ 
-// 여기 아래에 충돌 유발시킬 예정
-printf("1. make conflict here!\n");
+ // 원래 main 브랜치에서의 코드로 바꿈
+printf("Git practice start!\n");
 
-// 여기 아래에 충돌 유발시킬 예정
+// 충돌 유발시킨 코드로 선택
 printf("2. make conflict here!\n");
 
 return 0;
