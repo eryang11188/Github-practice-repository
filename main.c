@@ -3,7 +3,7 @@
 int main(void){
 printf("Git practice start!\n");
 
-// 일부러 다 지우고 충돌 내기
+printf("충돌 테스트입니다.\n");
 
 return 0;
 }
