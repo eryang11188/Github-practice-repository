@@ -1,9 +1,11 @@
 # include <stdio.h>
 
-int main(void){
-printf("Git practice start!\n");
+int main(void){ 
+// 여기 아래에 충돌 유발시킬 예정
+printf("1. make conflict here!\n");
 
-// 일부러 다 지우고 충돌 내기
+// 여기 아래에 충돌 유발시킬 예정
+printf("2. make conflict here!\n");
 
 return 0;
 }
